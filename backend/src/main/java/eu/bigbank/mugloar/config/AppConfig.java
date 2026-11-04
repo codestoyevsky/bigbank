@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableConfigurationProperties(MugloarProperties.class)
@@ -34,5 +36,17 @@ public class AppConfig {
     @Bean
     ShopPolicy shopPolicy() {
         return new ShopPolicy();
+    }
+
+    @Bean
+    WebMvcConfigurer corsConfigurer(MugloarProperties props) {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins(props.web().allowedOrigins().toArray(String[]::new))
+                        .allowedMethods("GET", "POST");
+            }
+        };
     }
 }
