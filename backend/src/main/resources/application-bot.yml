@@ -1,0 +1,6 @@
+# Command-line bot, no web server.
+spring:
+  main:
+    web-application-type: none
+bot:
+  games: 5

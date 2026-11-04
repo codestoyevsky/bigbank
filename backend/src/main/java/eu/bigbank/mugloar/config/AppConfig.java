@@ -1,5 +1,7 @@
 package eu.bigbank.mugloar.config;
 
+import eu.bigbank.mugloar.strategy.AdEvaluator;
+import eu.bigbank.mugloar.strategy.ShopPolicy;
 import java.net.http.HttpClient;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,5 +24,15 @@ public class AppConfig {
                 .baseUrl(props.api().baseUrl())
                 .requestFactory(requestFactory)
                 .build();
+    }
+
+    @Bean
+    AdEvaluator adEvaluator() {
+        return new AdEvaluator();
+    }
+
+    @Bean
+    ShopPolicy shopPolicy() {
+        return new ShopPolicy();
     }
 }
