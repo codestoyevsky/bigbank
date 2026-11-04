@@ -101,6 +101,26 @@ export const useGame = defineStore('game', () => {
     }
   }
 
+  // Continues the game saved in this browser. The game server forgets old games, so drop it if it's gone.
+  async function resume() {
+    const id = state.value?.gameId
+    if (!id) return
+    try {
+      ads.value = await api.getAds(id)
+    } catch (e) {
+      if (e instanceof ApiError && e.status === 404) {
+        reset()
+        notify.push('info', 'Previous game expired', 'Start a new game to play.')
+      } else if (e instanceof ApiError && e.isGameOver) {
+        markOver()
+      } else {
+        notify.error(e)
+      }
+      return
+    }
+    await loadShop()
+  }
+
   async function loadShop() {
     const id = state.value?.gameId
     if (!id) return
@@ -177,6 +197,6 @@ export const useGame = defineStore('game', () => {
   return {
     state, ads, shop, reputation, busy, loadingAds, over,
     hasGame, lowOnLives, recommended,
-    start, refreshAds, loadShop, solve, buy, investigate, applyRemoteState, markOver, reset,
+    start, refreshAds, loadShop, resume, solve, buy, investigate, applyRemoteState, markOver, reset,
   }
 })

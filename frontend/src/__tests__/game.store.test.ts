@@ -31,6 +31,33 @@ describe('game store', () => {
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!)).toMatchObject({ gameId: 'g1' })
   })
 
+  it('resumes a saved game by loading its ads and shop', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(game({ score: 42 })))
+    setActivePinia(createPinia())
+    vi.spyOn(api, 'getAds').mockResolvedValue([ad()])
+    vi.spyOn(api, 'getShop').mockResolvedValue(shop)
+    const store = useGame()
+
+    await store.resume()
+
+    expect(store.state?.score).toBe(42)
+    expect(store.ads).toHaveLength(1)
+    expect(store.shop).toEqual(shop)
+  })
+
+  it('drops a saved game the server no longer knows', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(game()))
+    setActivePinia(createPinia())
+    vi.spyOn(api, 'getAds').mockRejectedValue(new ApiError(404, 'Not found', 'gone'))
+    const store = useGame()
+
+    await store.resume()
+
+    expect(store.hasGame).toBe(false)
+    expect(localStorage.getItem(STORAGE_KEY)).toBeNull()
+    expect(useNotifications().notices[0]).toMatchObject({ kind: 'info', title: 'Previous game expired' })
+  })
+
   it('restores a saved game on load and ignores junk', () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(game({ score: 42 })))
     expect(useGame().state?.score).toBe(42)

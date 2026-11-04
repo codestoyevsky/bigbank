@@ -17,10 +17,7 @@ const autoplay = useAutoplay()
 
 onMounted(() => {
   // Resume a game saved before a page reload.
-  if (game.hasGame) {
-    void game.refreshAds()
-    void game.loadShop()
-  }
+  void game.resume()
 })
 </script>
 
