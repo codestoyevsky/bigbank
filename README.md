@@ -3,6 +3,8 @@
 A full-stack take on the [Dragons of Mugloar](https://dragonsofmugloar.com/) game: a web app to play the game with an
 **ad advisor**, and a **bot** that plays on its own and reliably scores well over 1,000 points.
 
+**Live demo:** https://bigbank.vugar.eu
+
 - **Backend:** Java 21, Spring Boot 4 (REST + Server-Sent Events), Gradle
 - **Frontend:** Vue 3, TypeScript, Pinia, Vite
 - **Tests:** JUnit 5 / AssertJ / Mockito / MockMvc, and Vitest / Vue Test Utils
@@ -163,6 +165,12 @@ cd frontend && npm run typecheck && npm run lint
 ```
 
 CI (GitHub Actions) runs both test suites, the linter and the frontend build on every push.
+
+## Deployment
+
+The root `Dockerfile` builds one image: the Vue build is bundled into the Spring Boot jar, so the page and the API
+share an origin. On every push to `main`, CI publishes it as `ghcr.io/codestoyevsky/bigbank`. The live demo runs that
+image on a small Hetzner server behind Caddy, which handles HTTPS.
 
 ## Use of AI tools
 
