@@ -8,8 +8,8 @@ import java.util.Optional;
 /**
  * Picks the highest expected value (chance × reward) among ads that are safe enough. If none are, picks the safest.
  *
- * <p>Steal ads fail much more often than their label says: a "Sure thing" steal worked about 55% of the time in my
- * runs. Hence {@link #STEAL_PENALTY}.
+ * <p>Steal ads fail much more often than their label says: a "Sure thing" steal worked 14 of 25 times in my
+ * test games. Hence {@link #STEAL_PENALTY}.
  */
 public class AdEvaluator {
 

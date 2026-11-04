@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
-/** The game only gives labels, no numbers. The chances are estimates from my test runs. */
+/** The game only gives labels, no numbers. These chances are rough estimates, checked against a few test games. */
 public enum Probability {
     SURE_THING("Sure thing", 0.97),
     PIECE_OF_CAKE("Piece of cake", 0.92),

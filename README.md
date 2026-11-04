@@ -85,15 +85,19 @@ Each turn:
    refreshes, and banks an extra life. Only when that's not affordable does it take the safest ad on the board.
 4. Repeat until out of lives.
 
-The estimates were tuned from logs of real games. The main finding: **"Steal ..." ads fail far more often than their
-label says** (a "Sure thing" steal succeeded only ~55% of the time) and they hurt reputation. Their chance is
-scaled by 0.6, which removed most early-game deaths.
+The per-label chances in `Probability` are my initial estimates (the game gives no numbers), checked against the
+logs of a few test games. Those logs showed one clear problem: **"Steal ..." ads fail far more often than their
+label says** (a "Sure thing" steal succeeded 14 of 25 times) and they hurt reputation. Their chance is scaled by 0.6,
+which removed most early-game deaths. The sample is small, so treat 0.6 as a rough value.
 
-Typical results (10 games in a row against the live API):
+Results of 30 games in a row against the live API:
 
 | min | average | max | games ≥ 1,000 |
 |-----|---------|-----|---------------|
-| 2,897 | 4,943 | 6,874 | 10 / 10 |
+| 36 | 4,963 | 7,092 | 29 / 30 |
+
+The one miss lost all three lives in the first five turns, before there was gold for a healing potion. The
+weak dragon fails even "safe" ads now and then, so the opening is the bot's weak spot.
 
 ## Backend
 
