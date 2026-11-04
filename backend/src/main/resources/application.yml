@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: mugloar
+  threads:
+    virtual:
+      enabled: true
+  main:
+    banner-mode: off
+
+server:
+  port: 8080
+  # Behind nginx: use X-Forwarded-* so CORS sees the public host.
+  forward-headers-strategy: framework
+
+mugloar:
+  api:
+    base-url: https://dragonsofmugloar.com/api/v2
+    connect-timeout: 5s
+    read-timeout: 15s
+    max-retries: 2
+  web:
+    allowed-origins: http://localhost:5173
+  bot:
+    max-turns: 2000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
